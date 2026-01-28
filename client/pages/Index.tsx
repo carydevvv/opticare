@@ -364,6 +364,3 @@ export default function Index() {
     </Layout>
   );
 }
-
-// Add missing import
-import { Users } from "lucide-react";
