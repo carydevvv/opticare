@@ -139,8 +139,12 @@ export default function Index() {
             <div className="bg-card border border-border rounded-xl p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">This Week</p>
-                  <p className="text-3xl font-bold text-foreground mt-2">0</p>
+                  <p className="text-sm text-muted-foreground">
+                    Total Appointments
+                  </p>
+                  <p className="text-3xl font-bold text-foreground mt-2">
+                    {appointmentStats.total}
+                  </p>
                 </div>
                 <div className="bg-secondary/10 p-3 rounded-lg">
                   <Calendar size={24} className="text-secondary" />
@@ -151,15 +155,13 @@ export default function Index() {
             <div className="bg-card border border-border rounded-xl p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">
-                    Next Appointment
-                  </p>
-                  <p className="text-lg font-bold text-foreground mt-2">
-                    Today
+                  <p className="text-sm text-muted-foreground">Scheduled</p>
+                  <p className="text-3xl font-bold text-foreground mt-2">
+                    {appointmentStats.scheduled}
                   </p>
                 </div>
-                <div className="bg-accent/10 p-3 rounded-lg">
-                  <Eye size={24} className="text-accent" />
+                <div className="bg-blue-100 p-3 rounded-lg">
+                  <Calendar size={24} className="text-blue-600" />
                 </div>
               </div>
             </div>
@@ -167,15 +169,13 @@ export default function Index() {
             <div className="bg-card border border-border rounded-xl p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-muted-foreground">
-                    Active Patients
-                  </p>
+                  <p className="text-sm text-muted-foreground">Completed</p>
                   <p className="text-3xl font-bold text-foreground mt-2">
-                    {patients.length}
+                    {appointmentStats.completed}
                   </p>
                 </div>
-                <div className="bg-yellow-100 p-3 rounded-lg">
-                  <Eye size={24} className="text-yellow-600" />
+                <div className="bg-green-100 p-3 rounded-lg">
+                  <Eye size={24} className="text-green-600" />
                 </div>
               </div>
             </div>
