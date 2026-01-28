@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/firestore";
+import { getFirestore, Firestore } from "firebase/firestore";
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -40,8 +40,5 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firestore
 export const db: Firestore = getFirestore(app);
-
-// Set longer timeout for Firestore operations
-db.settings({ experimentalAutoDetectLongPolling: true });
 
 export default app;
