@@ -42,15 +42,15 @@ export const Layout = ({ children }: LayoutProps) => {
         <div className="h-16 border-b border-sidebar-border flex items-center justify-between px-4">
           {sidebarOpen && (
             <div className="flex items-center gap-2">
-              <div className="bg-primary p-2 rounded-lg text-primary-foreground">
-                <Eye size={20} />
+              <div className="relative w-10 h-10 bg-gradient-to-br from-primary to-blue-600 p-2 rounded-lg text-primary-foreground flex items-center justify-center">
+                <Glasses size={20} />
               </div>
               <div>
                 <h1 className="font-bold text-sm text-sidebar-foreground">
                   OptiCare
                 </h1>
                 <p className="text-xs text-sidebar-accent-foreground opacity-60">
-                  Pro
+                  Vision Care
                 </p>
               </div>
             </div>
