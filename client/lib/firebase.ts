@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, Firestore } from "firebase/firestore";
+import { getFirestore, Firestore, connectFirestoreEmulator } from "firebase/firestore";
 
 // Firebase configuration from environment variables
 const firebaseConfig = {
@@ -11,10 +11,37 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Validate that all required config values are present
+const requiredKeys = [
+  "apiKey",
+  "authDomain",
+  "projectId",
+  "storageBucket",
+  "messagingSenderId",
+  "appId",
+];
+
+const missingKeys = requiredKeys.filter(
+  (key) => !firebaseConfig[key as keyof typeof firebaseConfig]
+);
+
+if (missingKeys.length > 0) {
+  console.error(
+    "Firebase configuration is incomplete. Missing keys:",
+    missingKeys
+  );
+  console.error(
+    "Please ensure all VITE_FIREBASE_* environment variables are set."
+  );
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firestore
 export const db: Firestore = getFirestore(app);
+
+// Set longer timeout for Firestore operations
+db.settings({ experimentalAutoDetectLongPolling: true });
 
 export default app;
