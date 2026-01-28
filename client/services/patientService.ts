@@ -43,16 +43,25 @@ export interface PatientData {
 const PATIENTS_COLLECTION = "patients";
 
 /**
- * Add a new patient to Firestore
+ * Add a new patient to Firestore via server API
  */
 export async function addPatient(patientData: PatientData): Promise<string> {
   try {
-    const docRef = await addDoc(collection(db, PATIENTS_COLLECTION), {
-      ...patientData,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+    const response = await fetch("/api/patients", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(patientData),
     });
-    return docRef.id;
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || "Failed to create patient");
+    }
+
+    const data = await response.json();
+    return data.id;
   } catch (error) {
     console.error("Error adding patient:", error);
     throw error;
