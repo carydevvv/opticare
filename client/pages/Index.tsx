@@ -8,9 +8,14 @@ import {
   Plus,
   Search,
   AlertCircle,
+  Users,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getAllPatients, PatientData } from "@/services/patientService";
+import {
+  getAllAppointments,
+  getAppointmentStats,
+} from "@/services/appointmentService";
 
 export default function Index() {
   const [patients, setPatients] = useState<PatientData[]>([]);
