@@ -11,23 +11,37 @@ export default function Patients() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchPatients = async () => {
       try {
+        if (!isMounted) return;
         setLoading(true);
         setError(null);
         const data = await getAllPatients();
-        setPatients(data);
+        if (isMounted) {
+          setPatients(data);
+        }
       } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Failed to load patients";
-        setError(errorMessage);
-        console.error("Error fetching patients:", err);
+        if (isMounted) {
+          const errorMessage =
+            err instanceof Error ? err.message : "Failed to load patients";
+          setError(errorMessage);
+          console.error("Error fetching patients:", err);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchPatients();
+
+    // Cleanup function to prevent state updates after unmount
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const filteredPatients = patients.filter(
