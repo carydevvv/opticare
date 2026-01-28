@@ -21,33 +21,49 @@ export default function PatientDetail() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchPatient = async () => {
       if (!id) {
-        setError("No patient ID provided");
-        setLoading(false);
+        if (isMounted) {
+          setError("No patient ID provided");
+          setLoading(false);
+        }
         return;
       }
 
       try {
+        if (!isMounted) return;
         setLoading(true);
         setError(null);
         const data = await getPatientById(id);
-        if (data) {
-          setPatient(data);
-        } else {
-          setError("Patient not found");
+        if (isMounted) {
+          if (data) {
+            setPatient(data);
+          } else {
+            setError("Patient not found");
+          }
         }
       } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Failed to load patient";
-        setError(errorMessage);
-        console.error("Error fetching patient:", err);
+        if (isMounted) {
+          const errorMessage =
+            err instanceof Error ? err.message : "Failed to load patient";
+          setError(errorMessage);
+          console.error("Error fetching patient:", err);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchPatient();
+
+    // Cleanup function to prevent state updates after unmount
+    return () => {
+      isMounted = false;
+    };
   }, [id]);
 
   if (loading) {
