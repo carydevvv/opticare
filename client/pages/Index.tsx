@@ -19,6 +19,13 @@ import {
 
 export default function Index() {
   const [patients, setPatients] = useState<PatientData[]>([]);
+  const [appointmentStats, setAppointmentStats] = useState({
+    total: 0,
+    scheduled: 0,
+    completed: 0,
+    cancelled: 0,
+    noShow: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,25 +33,29 @@ export default function Index() {
     null,
   );
 
-  // Fetch patients from Firebase on component mount
+  // Fetch patients and appointments from Firebase on component mount
   useEffect(() => {
-    const fetchPatients = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
         setError(null);
-        const data = await getAllPatients();
-        setPatients(data);
+        const [patientsData, stats] = await Promise.all([
+          getAllPatients(),
+          getAppointmentStats(),
+        ]);
+        setPatients(patientsData);
+        setAppointmentStats(stats);
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : "Failed to load patients";
+          err instanceof Error ? err.message : "Failed to load data";
         setError(errorMessage);
-        console.error("Error fetching patients:", err);
+        console.error("Error fetching data:", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPatients();
+    fetchData();
   }, []);
 
   const filteredPatients = patients.filter(
