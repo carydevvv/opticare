@@ -73,14 +73,11 @@ export default function Reports() {
       "65+": patients.filter((p) => parseInt(p.age || "0") > 65).length,
     },
     insuranceDistribution: Object.entries(
-      patients.reduce(
-        (acc: Record<string, number>, p) => {
-          const insurance = p.insurance || "Not Specified";
-          acc[insurance] = (acc[insurance] || 0) + 1;
-          return acc;
-        },
-        {},
-      ),
+      patients.reduce((acc: Record<string, number>, p) => {
+        const insurance = p.insurance || "Not Specified";
+        acc[insurance] = (acc[insurance] || 0) + 1;
+        return acc;
+      }, {}),
     ).map(([name, count]) => ({ name, count })),
   };
 
@@ -90,10 +87,12 @@ export default function Reports() {
     { name: "Other", value: stats.sexDistribution.other, fill: "#8b5cf6" },
   ];
 
-  const ageData = Object.entries(stats.ageDistribution).map(([range, count]) => ({
-    range,
-    count,
-  }));
+  const ageData = Object.entries(stats.ageDistribution).map(
+    ([range, count]) => ({
+      range,
+      count,
+    }),
+  );
 
   const insuranceData = stats.insuranceDistribution.slice(0, 5);
 
@@ -149,8 +148,7 @@ export default function Reports() {
               <div className="bg-card border border-border rounded-xl p-6">
                 <p className="text-sm text-muted-foreground">Most Common Sex</p>
                 <p className="text-2xl font-bold text-foreground mt-2">
-                  {stats.sexDistribution.female >
-                  stats.sexDistribution.male
+                  {stats.sexDistribution.female > stats.sexDistribution.male
                     ? "Female"
                     : "Male"}
                 </p>
@@ -312,9 +310,7 @@ export default function Reports() {
                           </td>
                           <td className="text-right py-3 px-4 font-semibold text-foreground">
                             {count} (
-                            {Math.round(
-                              (count / stats.totalPatients) * 100,
-                            )}
+                            {Math.round((count / stats.totalPatients) * 100)}
                             %)
                           </td>
                         </tr>

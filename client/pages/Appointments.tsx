@@ -1,6 +1,13 @@
 import { Layout } from "@/components/Layout";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Plus, AlertCircle, Clock, User, Trash2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Plus,
+  AlertCircle,
+  Clock,
+  User,
+  Trash2,
+} from "lucide-react";
 import { useState, useEffect } from "react";
 import {
   getAllAppointments,
@@ -120,9 +127,7 @@ export default function Appointments() {
 
   const handleDelete = async (appointmentId: string | undefined) => {
     if (!appointmentId) return;
-    if (
-      !window.confirm("Are you sure you want to delete this appointment?")
-    ) {
+    if (!window.confirm("Are you sure you want to delete this appointment?")) {
       return;
     }
 
@@ -162,7 +167,9 @@ export default function Appointments() {
     }
   };
 
-  const appointmentsByDate = appointments.filter((a) => a.date === selectedDate);
+  const appointmentsByDate = appointments.filter(
+    (a) => a.date === selectedDate,
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -390,8 +397,7 @@ export default function Appointments() {
             <div className="lg:col-span-3">
               <div className="bg-card border border-border rounded-xl p-6 space-y-4">
                 <h3 className="text-lg font-semibold text-foreground">
-                  Appointments for{" "}
-                  {new Date(selectedDate).toLocaleDateString()}
+                  Appointments for {new Date(selectedDate).toLocaleDateString()}
                 </h3>
 
                 {appointmentsByDate.length > 0 ? (
@@ -411,8 +417,8 @@ export default function Appointments() {
                               </h4>
                               <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
                                 <Clock size={16} />
-                                {appointment.time} ({appointment.duration} min) •{" "}
-                                {appointment.type}
+                                {appointment.time} ({appointment.duration} min)
+                                • {appointment.type}
                               </p>
                             </div>
                             <span
