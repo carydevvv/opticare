@@ -19,6 +19,9 @@ interface PatientFormData {
   // Chief Complaint
   problem: string;
 
+  // Patient History
+  patientHistory: string[];
+
   // Right Eye (OD)
   rightSphere: string;
   rightCylinder: string;
