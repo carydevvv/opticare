@@ -444,13 +444,38 @@ export default function Index() {
                     </div>
                   </div>
 
-                  <div className="pt-4 flex gap-2">
+                  <div className="pt-4 space-y-2">
                     <Link
                       to={`/patient/${selectedPatient.id}`}
-                      className="flex-1 bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors text-center"
+                      className="flex items-center justify-center gap-2 w-full bg-primary text-primary-foreground px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
                     >
+                      <Eye size={16} />
                       View Full Record
                     </Link>
+
+                    <button
+                      onClick={() => setShowScheduleModal(true)}
+                      className="flex items-center justify-center gap-2 w-full bg-secondary text-secondary-foreground px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-secondary/90 transition-colors"
+                    >
+                      <Calendar size={16} />
+                      Schedule Appointment
+                    </button>
+
+                    <button
+                      onClick={() => setShowDescriptionModal(true)}
+                      className="flex items-center justify-center gap-2 w-full bg-accent text-accent-foreground px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-accent/90 transition-colors"
+                    >
+                      <FileText size={16} />
+                      Add Notes
+                    </button>
+
+                    <button
+                      onClick={handlePrintRecord}
+                      className="flex items-center justify-center gap-2 w-full bg-muted text-foreground px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-muted/80 transition-colors"
+                    >
+                      <Printer size={16} />
+                      Print Record
+                    </button>
                   </div>
                 </div>
               ) : (
