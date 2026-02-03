@@ -120,6 +120,13 @@ export async function getPatientById(patientId: string): Promise<PatientData | n
       return null;
     }
   } catch (error) {
+    // Ignore AbortError - it means the component was unmounted
+    if (error instanceof Error) {
+      if (error.message.includes("AbortError") || error.message.includes("aborted")) {
+        console.debug("Request was cancelled - component likely unmounted");
+        return null;
+      }
+    }
     console.error("Error getting patient:", error);
     throw error;
   }
