@@ -317,7 +317,10 @@ export default function Reports() {
               Comprehensive patient statistics and practice insights
             </p>
           </div>
-          <button className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-2.5 rounded-lg hover:bg-primary/90 transition-colors font-medium">
+          <button
+            onClick={handleExportReport}
+            className="flex items-center gap-2 bg-primary text-primary-foreground px-6 py-2.5 rounded-lg hover:bg-primary/90 transition-colors font-medium"
+          >
             <Download size={18} />
             Export Report
           </button>
