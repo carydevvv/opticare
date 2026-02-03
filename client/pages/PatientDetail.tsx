@@ -509,6 +509,314 @@ export default function PatientDetail() {
           </div>
         </div>
       </div>
+
+      {/* Schedule Appointment Modal */}
+      {showScheduleModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-card rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-foreground">
+                Schedule Appointment
+              </h3>
+              <button
+                onClick={() => setShowScheduleModal(false)}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Date *
+                </label>
+                <input
+                  type="date"
+                  value={appointmentData.date}
+                  onChange={(e) =>
+                    setAppointmentData({
+                      ...appointmentData,
+                      date: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Time *
+                </label>
+                <input
+                  type="time"
+                  value={appointmentData.time}
+                  onChange={(e) =>
+                    setAppointmentData({
+                      ...appointmentData,
+                      time: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-foreground mb-2">
+                  Notes
+                </label>
+                <textarea
+                  value={appointmentData.notes}
+                  onChange={(e) =>
+                    setAppointmentData({
+                      ...appointmentData,
+                      notes: e.target.value,
+                    })
+                  }
+                  className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background"
+                  placeholder="e.g., Follow-up for myopia assessment..."
+                  rows={3}
+                />
+              </div>
+
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={() => setShowScheduleModal(false)}
+                  className="flex-1 px-4 py-2 border border-border text-foreground rounded-lg hover:bg-muted transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleScheduleAppointment}
+                  className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+                >
+                  Schedule
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Prescription Modal */}
+      {showPrescriptionModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+          <div className="bg-card rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-foreground">
+                Update Prescription
+              </h3>
+              <button
+                onClick={() => setShowPrescriptionModal(false)}
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Right Eye */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-foreground">Right Eye (OD)</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Sphere (SPH)
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.rightSphere}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          rightSphere: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., -2.50"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Cylinder (CYL)
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.rightCylinder}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          rightCylinder: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., -0.75"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Axis
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.rightAxis}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          rightAxis: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., 180"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Add
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.rightAdd}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          rightAdd: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., +1.50"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Pupillary Distance (PD)
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.rightPD}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          rightPD: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., 32"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Left Eye */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-foreground">Left Eye (OS)</h4>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Sphere (SPH)
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.leftSphere}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          leftSphere: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., -2.75"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Cylinder (CYL)
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.leftCylinder}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          leftCylinder: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., -0.50"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Axis
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.leftAxis}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          leftAxis: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., 175"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Add
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.leftAdd}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          leftAdd: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., +1.50"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <label className="block text-sm font-medium text-foreground mb-1">
+                      Pupillary Distance (PD)
+                    </label>
+                    <input
+                      type="text"
+                      value={prescriptionData.leftPD}
+                      onChange={(e) =>
+                        setPrescriptionData({
+                          ...prescriptionData,
+                          leftPD: e.target.value,
+                        })
+                      }
+                      placeholder="e.g., 32"
+                      className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary bg-background text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-4">
+                <button
+                  onClick={() => setShowPrescriptionModal(false)}
+                  className="flex-1 px-4 py-2 border border-border text-foreground rounded-lg hover:bg-muted transition-colors font-medium"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleUpdatePrescription}
+                  className="flex-1 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
+                >
+                  Save Prescription
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </Layout>
   );
 }
