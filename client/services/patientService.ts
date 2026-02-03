@@ -55,6 +55,19 @@ export async function addPatient(patientData: PatientData): Promise<string> {
     });
     return docRef.id;
   } catch (error) {
+    // Improve error messaging
+    if (error instanceof Error) {
+      if (error.message.includes("AbortError") || error.message.includes("aborted")) {
+        console.debug("Request was cancelled");
+        throw new Error("Request was interrupted. Please try again.");
+      }
+      if (error.message.includes("permission")) {
+        throw new Error("Permission denied. Please check your Firebase rules.");
+      }
+      if (error.message.includes("network")) {
+        throw new Error("Network error. Please check your connection.");
+      }
+    }
     console.error("Error adding patient:", error);
     throw error;
   }
