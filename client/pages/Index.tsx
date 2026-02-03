@@ -8,6 +8,9 @@ import {
   Plus,
   Search,
   AlertCircle,
+  Printer,
+  FileText,
+  X,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getAllPatients, PatientData } from "@/services/patientService";
