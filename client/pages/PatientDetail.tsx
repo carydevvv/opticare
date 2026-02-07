@@ -466,6 +466,12 @@ export default function PatientDetail() {
               </div>
             </div>
 
+            {/* Patient History Records */}
+            <PatientHistorySection
+              records={historyRecords}
+              onRecordsChange={setHistoryRecords}
+            />
+
             {/* Clinical Notes */}
             <div className="bg-card border border-border rounded-xl p-6">
               <h2 className="text-lg font-semibold text-foreground mb-4">
