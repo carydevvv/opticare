@@ -41,6 +41,7 @@ export default function PatientDetail() {
     leftAdd: "",
     leftPD: "",
   });
+  const [historyRecords, setHistoryRecords] = useState<HistoryRecord[]>([]);
 
   useEffect(() => {
     let isMounted = true;
