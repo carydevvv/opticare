@@ -66,7 +66,6 @@ export default function PatientDetail() {
         if (isMounted) {
           if (data) {
             setPatient(data);
-            setHistoryRecords(data.patientHistoryRecords || []);
             setError(null);
           } else {
             setError("Patient not found");
