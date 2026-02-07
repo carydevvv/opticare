@@ -95,10 +95,16 @@ export default function NewPatient() {
     }));
   };
 
-  const handleHistoryRecordsChange = (records: HistoryRecord[]) => {
+  const handleHistoryChange = (
+    field: keyof PatientFormData["patientHistory"],
+    value: string,
+  ) => {
     setFormData((prev) => ({
       ...prev,
-      patientHistoryRecords: records,
+      patientHistory: {
+        ...prev.patientHistory,
+        [field]: value,
+      },
     }));
   };
 
