@@ -381,10 +381,53 @@ export default function NewPatient() {
           </div>
 
           {/* Patient History Section */}
-          <PatientHistorySection
-            records={formData.patientHistoryRecords}
-            onRecordsChange={handleHistoryRecordsChange}
-          />
+          <div className="bg-card border border-border rounded-xl p-6 space-y-6">
+            <h2 className="text-xl font-semibold text-foreground flex items-center gap-2">
+              <div className="bg-secondary/10 p-2 rounded-lg">
+                <svg
+                  className="w-5 h-5 text-secondary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              Patient History
+            </h2>
+
+            <p className="text-sm text-muted-foreground">
+              Enter findings or notes for each relevant patient history item
+            </p>
+
+            <div className="space-y-4">
+              {[
+                { label: "PM hx (Past Medical History)", field: "pmHx" as const },
+                { label: "PO hx (Past Ocular History)", field: "poHx" as const },
+                { label: "VDU (Visual Display Unit)", field: "vdu" as const },
+                { label: "Strabismus (Eye Alignment Issue)", field: "strabismus" as const },
+                { label: "NPC (Near Point of Convergence)", field: "npc" as const },
+              ].map((item) => (
+                <div key={item.field}>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    {item.label}
+                  </label>
+                  <textarea
+                    value={formData.patientHistory[item.field]}
+                    onChange={(e) => handleHistoryChange(item.field, e.target.value)}
+                    className="w-full px-4 py-2.5 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary bg-background"
+                    placeholder={`Enter notes for ${item.label}...`}
+                    rows={2}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* Eye Measurements Section */}
           <div className="bg-card border border-border rounded-xl p-6 space-y-6">
