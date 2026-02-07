@@ -13,7 +13,8 @@ import {
   Printer,
 } from "lucide-react";
 import { useState, useEffect } from "react";
-import { getPatientById, PatientData } from "@/services/patientService";
+import { getPatientById, PatientData, HistoryRecord } from "@/services/patientService";
+import { PatientHistorySection } from "@/components/PatientHistorySection";
 
 export default function PatientDetail() {
   const { id } = useParams<{ id: string }>();
