@@ -463,11 +463,31 @@ export default function PatientDetail() {
               </div>
             </div>
 
-            {/* Patient History Records */}
-            <PatientHistorySection
-              records={historyRecords}
-              onRecordsChange={setHistoryRecords}
-            />
+            {/* Patient History */}
+            <div className="bg-card border border-border rounded-xl p-6">
+              <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+                <FileText size={20} className="text-secondary" />
+                Patient History
+              </h2>
+              <div className="space-y-4">
+                {[
+                  { label: "PM hx (Past Medical History)", key: "pmHx" },
+                  { label: "PO hx (Past Ocular History)", key: "poHx" },
+                  { label: "VDU (Visual Display Unit)", key: "vdu" },
+                  { label: "Strabismus (Eye Alignment Issue)", key: "strabismus" },
+                  { label: "NPC (Near Point of Convergence)", key: "npc" },
+                ].map((item) => (
+                  <div key={item.key}>
+                    <p className="text-sm font-medium text-muted-foreground mb-1">
+                      {item.label}
+                    </p>
+                    <p className="text-foreground bg-muted/30 p-3 rounded-lg whitespace-pre-wrap">
+                      {patient.patientHistory?.[item.key as keyof typeof patient.patientHistory] || "No information recorded"}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* Clinical Notes */}
             <div className="bg-card border border-border rounded-xl p-6">
