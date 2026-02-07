@@ -84,12 +84,10 @@ export default function NewPatient() {
     }));
   };
 
-  const handleHistoryToggle = (historyItem: string) => {
+  const handleHistoryRecordsChange = (records: HistoryRecord[]) => {
     setFormData((prev) => ({
       ...prev,
-      patientHistory: prev.patientHistory.includes(historyItem)
-        ? prev.patientHistory.filter((item) => item !== historyItem)
-        : [...prev.patientHistory, historyItem],
+      patientHistoryRecords: records,
     }));
   };
 
