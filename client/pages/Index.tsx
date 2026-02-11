@@ -53,13 +53,17 @@ export default function Index() {
         }
       } catch (err) {
         if (isMounted) {
-          // Gracefully handle AbortError
+          // Gracefully handle AbortError (expected when component unmounts)
           if (
             err instanceof Error &&
             (err.message.includes("AbortError") ||
-              err.message.includes("aborted"))
+              err.message.includes("aborted") ||
+              err.message.includes("signal is aborted"))
           ) {
-            console.debug("Patient fetch cancelled - component unmounted");
+            // This is expected - silently ignore
+            return;
+          }
+          if ((err as any)?.name === "AbortError") {
             return;
           }
           const errorMessage =

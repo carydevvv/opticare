@@ -65,13 +65,16 @@ export default function Appointments() {
           setPatients(data);
         }
       } catch (err) {
-        // Gracefully handle AbortError
+        // Gracefully handle AbortError (expected when component unmounts)
         if (
           err instanceof Error &&
           (err.message.includes("AbortError") ||
-            err.message.includes("aborted"))
+            err.message.includes("aborted") ||
+            err.message.includes("signal is aborted"))
         ) {
-          console.debug("Patients fetch cancelled - component unmounted");
+          return;
+        }
+        if ((err as any)?.name === "AbortError") {
           return;
         }
         console.error("Error fetching patients:", err);

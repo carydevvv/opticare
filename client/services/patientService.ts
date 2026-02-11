@@ -107,13 +107,14 @@ export async function getAllPatients(): Promise<PatientData[]> {
         }) as PatientData,
     );
   } catch (error) {
-    // Ignore AbortError - it means the component was unmounted
+    // Ignore AbortError - it means the component was unmounted or request was cancelled
     if (error instanceof Error) {
       if (
         error.message.includes("AbortError") ||
-        error.message.includes("aborted")
+        error.message.includes("aborted") ||
+        error.message.includes("signal is aborted")
       ) {
-        console.debug("Request was cancelled - component likely unmounted");
+        // This is expected behavior when component unmounts - silently ignore
         return [];
       }
       if (error.message === "Firestore request timeout") {
@@ -122,6 +123,10 @@ export async function getAllPatients(): Promise<PatientData[]> {
           "Failed to load patients. Please check your internet connection and try again.",
         );
       }
+    }
+    // Check if error name is AbortError
+    if ((error as any)?.name === "AbortError") {
+      return [];
     }
     console.error("Error getting patients:", error);
     throw error;
@@ -147,15 +152,19 @@ export async function getPatientById(
       return null;
     }
   } catch (error) {
-    // Ignore AbortError - it means the component was unmounted
+    // Ignore AbortError - it means the component was unmounted or request was cancelled
     if (error instanceof Error) {
       if (
         error.message.includes("AbortError") ||
-        error.message.includes("aborted")
+        error.message.includes("aborted") ||
+        error.message.includes("signal is aborted")
       ) {
-        console.debug("Request was cancelled - component likely unmounted");
         return null;
       }
+    }
+    // Check if error name is AbortError
+    if ((error as any)?.name === "AbortError") {
+      return null;
     }
     console.error("Error getting patient:", error);
     throw error;
