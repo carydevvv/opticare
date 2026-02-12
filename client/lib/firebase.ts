@@ -1,6 +1,24 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, Firestore } from "firebase/firestore";
 
+// Suppress Firebase's internal AbortError logging
+// This is a known issue with Firestore cleanup and doesn't indicate a real error
+const originalError = console.error;
+console.error = function (...args: any[]) {
+  const errorStr = String(args[0]);
+  if (
+    errorStr.includes("AbortError") ||
+    errorStr.includes("signal is aborted") ||
+    (args[0] instanceof Error &&
+      (args[0].name === "AbortError" ||
+        args[0].message.includes("signal is aborted")))
+  ) {
+    // Suppress Firebase cleanup errors silently
+    return;
+  }
+  originalError.apply(console, args);
+};
+
 // Firebase configuration from environment variables
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,

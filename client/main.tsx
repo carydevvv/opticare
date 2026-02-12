@@ -7,7 +7,8 @@
       return (
         error.name === "AbortError" ||
         error.message.includes("AbortError") ||
-        error.message.includes("signal is aborted")
+        error.message.includes("signal is aborted") ||
+        error.message.includes("Stream was cancelled")
       );
     }
     const errorStr = String(error);
@@ -20,22 +21,29 @@
 
   // Suppress Firebase AbortError warnings globally
   // This error is expected when components unmount during pending requests
-  window.addEventListener("unhandledrejection", (event) => {
+  const unhandledRejectionHandler = (event: PromiseRejectionEvent) => {
     if (isFirebaseAbortError(event.reason)) {
       event.preventDefault();
     }
-  });
+  };
 
-  // Also suppress error events
-  window.addEventListener("error", (event) => {
-    if (isFirebaseAbortError(event.error) || isFirebaseAbortError(event.message)) {
+  const errorHandler = (event: ErrorEvent) => {
+    if (
+      isFirebaseAbortError(event.error) ||
+      isFirebaseAbortError(event.message)
+    ) {
       event.preventDefault();
+      return true;
     }
-  }, true);
+  };
+
+  window.addEventListener("unhandledrejection", unhandledRejectionHandler);
+  window.addEventListener("error", errorHandler, true);
 
   // Patch console methods to suppress Firebase AbortError logs
   const originalError = console.error;
   const originalWarn = console.warn;
+  const originalLog = console.log;
 
   const shouldSuppress = (...args: any[]): boolean => {
     return args.some((arg) => isFirebaseAbortError(arg));
@@ -50,6 +58,13 @@
   console.warn = function (...args: any[]) {
     if (!shouldSuppress(...args)) {
       originalWarn.apply(this, args);
+    }
+  };
+
+  // Also suppress if it appears in logs with a specific pattern
+  console.log = function (...args: any[]) {
+    if (!shouldSuppress(...args)) {
+      originalLog.apply(this, args);
     }
   };
 }
